@@ -1,0 +1,67 @@
+body {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
+
+.convene-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.convene-container button{
+  width: 100%;
+  margin: 10px 5px;
+}
+
+.convene-buttons-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.convene-art {
+  height: auto;
+  width: 700px;
+}
+
+.resonator-card-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 30px;
+}
+
+.resonator-card {
+  height: auto;
+  width: 150px;
+  border: 1px solid white;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  padding: 0px 0px;
+}
+
+.resonator-card-info {
+  padding: 4px 4px;
+}
+
+.resonator-card img{
+  /* height: 70%; */
+  height: 110px;
+  width: auto;
+  object-fit: cover;
+  object-position: 50% 10%;
+  /* border-radius: 4px; */
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.resonator-card h1{
+  font-size: 1.2rem;
+  margin: 0 0;
+}
+
+.resonator-card p{
+  font-size: 0.8rem;
+  margin: 0 0;
+}
