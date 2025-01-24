@@ -4,6 +4,10 @@ body {
   margin: 10px;
 }
 
+main {
+  max-width: 700px;
+}
+
 .convene-container {
   display: flex;
   flex-direction: column;
@@ -21,24 +25,37 @@ body {
 
 .convene-art {
   height: auto;
-  width: 700px;
+  width: 100%;
 }
 
 .resonator-card-container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   gap: 30px;
 }
 
 .resonator-card {
   height: auto;
-  width: 150px;
+  width: auto;
+  /* width: 150px; */
   border: 1px solid white;
   border-radius: 6px;
   display: flex;
   flex-direction: column;
   justify-content: end;
   padding: 0px 0px;
+}
+
+.five-star-card {
+  border: 2px solid gold;
+}
+
+.four-star-card {
+  border: 2px solid purple;
+}
+
+.three-star-card {
+  border: 2px solid blue;
 }
 
 .resonator-card-info {
