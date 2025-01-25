@@ -11,7 +11,6 @@ export default function ResonatorCard(props){
         <div className="resonator-card-info">
           <h1>{props.name}</h1>
           <p>Star Rarity: {props.starRarity}</p>
-          <p>{props.index}</p>
         </div>
       </div>
     </>

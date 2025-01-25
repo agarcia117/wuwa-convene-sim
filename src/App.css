@@ -1,26 +1,31 @@
 body {
   display: flex;
   justify-content: center;
-  margin: 10px;
+  margin: 0;
 }
 
 main {
-  max-width: 700px;
+  max-width: 900px;
+  margin: 10px auto;
 }
 
 .convene-container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .convene-container button{
   width: 100%;
-  margin: 10px 5px;
+  margin: 10px 0px;
 }
 
 .convene-buttons-container {
   display: flex;
   justify-content: space-evenly;
+  width: 100%;
+  gap: 10px;
 }
 
 .convene-art {
@@ -28,16 +33,22 @@ main {
   width: 100%;
 }
 
+.pull-pity-indicator {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
 .resonator-card-container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   gap: 30px;
+  width: 100%;
 }
 
 .resonator-card {
   height: auto;
   width: auto;
-  /* width: 150px; */
   border: 1px solid white;
   border-radius: 6px;
   display: flex;

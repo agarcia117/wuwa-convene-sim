@@ -32,7 +32,7 @@ export default [
   {
     id: 7,
     name: "Chixia",
-    starRarity: 5
+    starRarity: 4
   },
   {
     id: 8,
