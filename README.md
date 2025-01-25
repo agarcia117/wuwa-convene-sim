@@ -1,3 +1,8 @@
+# First Personal Project with React
+
+Making a web app to simulate Wuthering Waves Convene Pulling.
+If anyone encounters this repository, please be kind. I know the code is probably pretty rough.
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
