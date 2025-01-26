@@ -16,13 +16,11 @@ function App() {
 
   function simulatePull(pullsToDo){
     let newPulls = [...pulledResults];
-    
+    //console.log(Date.now());
     let highestRarityFound = 3;
     for(let i = 0; i < pullsToDo; i++){      
       const [lastPityPullIndex, last5PullIndex] = findLastIndexOfPulls(newPulls);
 
-      console.log(lastPityPullIndex, last5PullIndex);
-  
       let fiveStarChance;
       if(newPulls.length - last5PullIndex >= 65){
         fiveStarChance = 0.008 + (newPulls.length - last5PullIndex - 64) * 0.05;
@@ -44,12 +42,12 @@ function App() {
         console.log('chance rate', randomChance);
         console.log('five chance rate', fiveStarChance);
         console.log('Since last 5 pity', newPulls.length - last5PullIndex);
-        newPulls.push(getRandom5StarResonator());
+        newPulls.push(getRandom5StarResonator(newPulls));
         highestRarityFound = highestRarityFound < 5 ? 5 : highestRarityFound;
-        console.log('5 Star Pulled');
+        // console.log('5 Star Pulled');
       }else if(randomChance < fourStarChance){
-        console.log('chance rate', randomChance);
-        console.log('five chance rate', fiveStarChance);
+        // console.log('chance rate', randomChance);
+        // console.log('five chance rate', fiveStarChance);
         highestRarityFound = highestRarityFound < 4  ? 4 : highestRarityFound;
         newPulls.push(getRandom4StarResonator());
       }else{
@@ -57,8 +55,7 @@ function App() {
         highestRarityFound = highestRarityFound === 3 ? 3 : highestRarityFound;
       }
     }
-    //console.log(highestRarityFound);
-        
+    //console.log(Date.now());
     setPullResults(prevResults => [...prevResults, ...newPulls.slice(newPulls.length - pullsToDo)]);
     setRarityFromLastPull(`${highestRarityFound}Star`);
     setShowVideo(true);
@@ -80,14 +77,44 @@ function App() {
     const fourStarResonators = resonators.filter(resonatorObj => {
       return resonatorObj.starRarity === 4 ? resonatorObj : null;
     });
+
+    const isFeaturedCharacter = Math.random() < 0.5;
+    const featuredCharacters = ['Yuanwu', 'Danjin', 'Youhu'];
+    if(isFeaturedCharacter){
+      const featuredFourStars = fourStarResonators.filter(resonatorObj => {
+        return featuredCharacters.includes(resonatorObj.name) ? resonatorObj : null;
+      });
+
+      return featuredFourStars[Math.floor(Math.random() * featuredFourStars.length)];
+    }
     
     return fourStarResonators[Math.floor(Math.random() * fourStarResonators.length)];
   }
 
-  function getRandom5StarResonator(){
+  function getRandom5StarResonator(pulls){
+    const featuredCharacter = 'Roccia';
+    const [, last5PullIndex] = findLastIndexOfPulls(pulls);
+    
     const fiveStarResonators = resonators.filter(resonatorObj => {
       return resonatorObj.starRarity === 5 ? resonatorObj : null;
     });
+    
+    if(pulls[last5PullIndex] !== undefined && pulls[last5PullIndex].name !== featuredCharacter){
+      console.log('Guaranteed 5 hit after lost 50/50');
+      
+      return fiveStarResonators.filter(resonatorObj => {
+        return resonatorObj.name === featuredCharacter;
+      })[0];
+    }
+
+    const isFeaturedCharacter = Math.random() < 0.5;
+    if(isFeaturedCharacter){
+      const featuredFiveStar = fiveStarResonators.filter(resonatorObj => {
+        return featuredCharacter == resonatorObj.name ? resonatorObj : null;
+      });
+
+      return featuredFiveStar[Math.floor(Math.random() * featuredFiveStar.length)];
+    }
 
     return fiveStarResonators[Math.floor(Math.random() * fiveStarResonators.length)];
   }
