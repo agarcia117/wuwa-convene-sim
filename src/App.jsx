@@ -16,14 +16,18 @@ function App() {
 
   function simulatePull(pullsToDo){
     let newPulls = [...pulledResults];
-    //console.log(Date.now());
     let highestRarityFound = 3;
     for(let i = 0; i < pullsToDo; i++){      
       const [lastPityPullIndex, last5PullIndex] = findLastIndexOfPulls(newPulls);
 
       let fiveStarChance;
+      if(newPulls.length - last5PullIndex === 80){
+        newPulls.push(getRandom5StarResonator(newPulls));        
+        highestRarityFound = highestRarityFound < 5 ? 5 : highestRarityFound;
+        continue;
+      }
       if(newPulls.length - last5PullIndex >= 65){
-        fiveStarChance = 0.008 + (newPulls.length - last5PullIndex - 64) * 0.05;
+        fiveStarChance = 0.008 + (newPulls.length - last5PullIndex - 64) * 0.001;
         console.log(fiveStarChance, 'five star chance with soft pity going');
       }else{
         fiveStarChance = 0.008;
@@ -60,6 +64,8 @@ function App() {
     setRarityFromLastPull(`${highestRarityFound}Star`);
     setShowVideo(true);
   }
+
+
 
   function findLastIndexOfPulls(pulls){
     const lastPityIndexNew = pulls.findLastIndex((pull) =>    
@@ -118,6 +124,28 @@ function App() {
 
     return fiveStarResonators[Math.floor(Math.random() * fiveStarResonators.length)];
   }
+
+  function get4StarPercentage(){
+    const fourStarTotal = pulledResults.filter(resonatorObj => {
+      return resonatorObj.starRarity === 4 ? resonatorObj : null;
+    });
+    if(pulledResults.length > 0){
+      return fourStarTotal.length/pulledResults.length;
+    }
+    return 0.00;
+  }
+
+  function get5StarPercentage(){
+    const fiveStarTotal = pulledResults.filter(resonatorObj => {
+      return resonatorObj.starRarity === 5 ? resonatorObj : null;
+    });
+
+    if(pulledResults.length > 0){
+      return fiveStarTotal.length/pulledResults.length;
+    }
+    return 0.00;
+  }
+
   const [, last5PullIndex] = findLastIndexOfPulls(pulledResults);
     
   return (
@@ -137,11 +165,15 @@ function App() {
         <div className='convene-buttons-container'>
           <button onClick={() => simulatePull(1)}>1 Convene</button>
           <button onClick={() => {simulatePull(10)}}>10 Convene</button>
+          <button onClick={() => {simulatePull(100)}}>100 Convene</button>
+          <button onClick={() => {simulatePull(1000)}}>1000 Convene</button>
         </div>
         <p className='pull-pity-indicator'>
           {`Pulls Since Hard Pity: `} 
-          <b>{` ${pulledResults.length - last5PullIndex - 1}/90`}</b>
+          <b>{` ${pulledResults.length - last5PullIndex - 1}/80`}</b>
         </p>
+        <p>Debug Info: 4 Star Percentage: {get4StarPercentage()}% 5 Star Percentage: {get5StarPercentage()}%</p>
+        <p>Total Pulls: {pulledResults.length}</p>
         <div className='resonator-card-container'>
           {pullElements.slice(0, 10)}
         </div>
