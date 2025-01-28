@@ -1,6 +1,5 @@
 import resonators from './Resonators.js'
 import ResonatorCard from './components/ResonatorCard.jsx'
-import PullDebug from './components/PullDebug.jsx'
 import ReactPlayer from 'react-player'
 import './App.css'
 import { useState } from 'react'
@@ -143,7 +142,6 @@ function App() {
           {`Pulls Since Hard Pity: `} 
           <b>{` ${pulledResults.length - last5PullIndex - 1}/80`}</b>
         </p>
-        {/* <PullDebug /> */}
         <p>Total Pulls: {pulledResults.length}</p>
         <div className='resonator-card-container'>
           {pullElements.slice(0, 10)}
