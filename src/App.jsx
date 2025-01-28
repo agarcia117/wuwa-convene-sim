@@ -1,5 +1,6 @@
 import resonators from './Resonators.js'
 import ResonatorCard from './components/ResonatorCard.jsx'
+import PullDebug from './components/PullDebug.jsx'
 import ReactPlayer from 'react-player'
 import './App.css'
 import { useState } from 'react'
@@ -24,11 +25,10 @@ function App() {
       if(newPulls.length - last5PullIndex === 80){
         newPulls.push(getRandom5StarResonator(newPulls));        
         highestRarityFound = highestRarityFound < 5 ? 5 : highestRarityFound;
+        console.log('hard pity hit');
         continue;
-      }
-      if(newPulls.length - last5PullIndex >= 65){
-        fiveStarChance = 0.008 + (newPulls.length - last5PullIndex - 64) * 0.001;
-        console.log(fiveStarChance, 'five star chance with soft pity going');
+      }else if(newPulls.length - last5PullIndex >= 65){
+        fiveStarChance = 0.008 + (newPulls.length - last5PullIndex - 64) * 0.04;
       }else{
         fiveStarChance = 0.008;
       }
@@ -37,21 +37,14 @@ function App() {
       if(newPulls.length - lastPityPullIndex === 10){
         newPulls.push(getRandom4StarResonator());
         highestRarityFound = highestRarityFound < 4 ? 4 : highestRarityFound;
-        console.log('pity 4 pulled');
         continue;
       }
       
       let randomChance = Math.random();      
       if(randomChance < fiveStarChance){
-        console.log('chance rate', randomChance);
-        console.log('five chance rate', fiveStarChance);
-        console.log('Since last 5 pity', newPulls.length - last5PullIndex);
         newPulls.push(getRandom5StarResonator(newPulls));
         highestRarityFound = highestRarityFound < 5 ? 5 : highestRarityFound;
-        // console.log('5 Star Pulled');
       }else if(randomChance < fourStarChance){
-        // console.log('chance rate', randomChance);
-        // console.log('five chance rate', fiveStarChance);
         highestRarityFound = highestRarityFound < 4  ? 4 : highestRarityFound;
         newPulls.push(getRandom4StarResonator());
       }else{
@@ -59,7 +52,6 @@ function App() {
         highestRarityFound = highestRarityFound === 3 ? 3 : highestRarityFound;
       }
     }
-    //console.log(Date.now());
     setPullResults(prevResults => [...prevResults, ...newPulls.slice(newPulls.length - pullsToDo)]);
     setRarityFromLastPull(`${highestRarityFound}Star`);
     setShowVideo(true);
@@ -125,26 +117,7 @@ function App() {
     return fiveStarResonators[Math.floor(Math.random() * fiveStarResonators.length)];
   }
 
-  function get4StarPercentage(){
-    const fourStarTotal = pulledResults.filter(resonatorObj => {
-      return resonatorObj.starRarity === 4 ? resonatorObj : null;
-    });
-    if(pulledResults.length > 0){
-      return fourStarTotal.length/pulledResults.length;
-    }
-    return 0.00;
-  }
 
-  function get5StarPercentage(){
-    const fiveStarTotal = pulledResults.filter(resonatorObj => {
-      return resonatorObj.starRarity === 5 ? resonatorObj : null;
-    });
-
-    if(pulledResults.length > 0){
-      return fiveStarTotal.length/pulledResults.length;
-    }
-    return 0.00;
-  }
 
   const [, last5PullIndex] = findLastIndexOfPulls(pulledResults);
     
@@ -165,14 +138,12 @@ function App() {
         <div className='convene-buttons-container'>
           <button onClick={() => simulatePull(1)}>1 Convene</button>
           <button onClick={() => {simulatePull(10)}}>10 Convene</button>
-          <button onClick={() => {simulatePull(100)}}>100 Convene</button>
-          <button onClick={() => {simulatePull(1000)}}>1000 Convene</button>
         </div>
         <p className='pull-pity-indicator'>
           {`Pulls Since Hard Pity: `} 
           <b>{` ${pulledResults.length - last5PullIndex - 1}/80`}</b>
         </p>
-        <p>Debug Info: 4 Star Percentage: {get4StarPercentage()}% 5 Star Percentage: {get5StarPercentage()}%</p>
+        {/* <PullDebug /> */}
         <p>Total Pulls: {pulledResults.length}</p>
         <div className='resonator-card-container'>
           {pullElements.slice(0, 10)}
